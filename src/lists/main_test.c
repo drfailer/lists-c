@@ -40,7 +40,7 @@ int main(void)
   list_t *l = createlst();
 
   for (int i = 0; i < 10; ++i) {
-    pushlst(&l, createContainer(i));
+    pushlst(l, createContainer(i));
   }
 
   printlst(l, &showContainer);
@@ -50,16 +50,16 @@ int main(void)
   printf("-----------------------\n");
 
   printf("insertion tete de 50\n");
-  pushlst(&l, createContainer(50));
+  pushlst(l, createContainer(50));
   printlst(l, &showContainer);
   printf("insertion fin de 60\n");
-  appendlst(&l, createContainer(60));
+  appendlst(l, createContainer(60));
   printlst(l, &showContainer);
   printf("insertion de 70 à l'indice 5\n");
-  insertlst(&l, createContainer(70), 5);
+  insertlst(l, createContainer(70), 5);
   printlst(l, &showContainer);
   printf("insertion de 80 à l'indice 0\n");
-  insertlst(&l, createContainer(80), 0);
+  insertlst(l, createContainer(80), 0);
   printlst(l, &showContainer);
 
   printf("-----------------------\n");
@@ -74,6 +74,33 @@ int main(void)
   printf("\nelst 3: ");
   showContainer(datalst(l, 3));
   printf("\n");
+
+  printf("-----------------------\n");
+  printf("TEST SUPPRESSION\n");
+  printf("-----------------------\n");
+  printlst(l, &showContainer);
+  printf("-----------------------\n");
+  printf("suppression de l'element d'indice 6\n");
+  freeContainer(removeNodelst(l, 6));
+  printlst(l, &showContainer);
+  printf("suppression de l'element d'indice 4\n");
+  freeContainer(removeNodelst(l, 4));
+  printlst(l, &showContainer);
+  printf("suppression de l'element d'indice 0\n");
+  freeContainer(removeNodelst(l, 0));
+  printlst(l, &showContainer);
+  printf("suppression de l'element d'indice 0\n");
+  freeContainer(removeNodelst(l, 0));
+  printlst(l, &showContainer);
+  printf("suppression de la tête\n");
+  freeContainer(poplst(l));
+  printlst(l, &showContainer);
+  printf("suppression du dernier\n");
+  freeContainer(removeLastlst(l));
+  printlst(l, &showContainer);
+  printf("suppression du dernier\n");
+  freeContainer(removeLastlst(l));
+  printlst(l, &showContainer);
 
   freelst(&l, &freeContainer);
 

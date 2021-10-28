@@ -18,20 +18,22 @@ typedef struct list {
 list_t* createlst();
 void freelst(list_t ** l, void (*freeData) (void*));
 
-void pushlst(list_t ** l, void * data);
-void appendlst(list_t ** l, void * data);
-int insertlst(list_t ** l, void * data, int index);
+int pushlst(list_t * l, void * data);
+int appendlst(list_t * l, void * data);
+int insertlst(list_t * l, void * data, int index);
 
-void* removeHeadlst(list_t ** l);
-void* removeLast(list_t ** l);
-void* removeNodelst(list_t ** l, int index);
+void* poplst(list_t * l);
+void* removeLastlst(list_t * l);
+void* removeNodelst(list_t * l, int index);
 
-void *nodelst(list_t *l, int index);
+int lengthlst(list_t *l);
+node_t* nodelst(list_t *l, int index);
 void* datalst(list_t * l, int index);
 void* head(list_t * l);
 list_t* tail(list_t * l);
 
-void sortlst(list_t ** l, int (*cmp) (void*, void*)); // merge sort
+void sortlst(list_t * l, int (*cmp) (void*, void*)); // merge sort
+void reverselst(list_t * l);
 
 void printlst(list_t *l, void (*printData) (void * data));
 

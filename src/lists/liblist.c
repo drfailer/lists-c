@@ -76,32 +76,48 @@ node_t *createNode(void *data) {
 /**
  * Create a new element using `createElement` and put it on the head of the
  * list.
+ *
+ * RETURN: return 1 if the inputed list is NULL, 0 otherwise.
  */
-void pushlst(list_t **l, void *data) {
+int pushlst(list_t *l, void *data) {
   node_t *newNode = createNode(data);
+  int err = 0;
 
-  if (l != NULL && *l != NULL) {
-    if ((*l)->last == NULL) { // the list has no elements
-      (*l)->last = newNode;
+  if (l != NULL) {
+    newNode->next = l->head;
+    l->head = newNode;
+    if (l->last == NULL) { // the list has no elements
+      l->last = newNode;
     }
-    newNode->next = (*l)->head;
-    (*l)->head = newNode;
+  } else {
+    fprintf(stderr, "Error: the list doesn't exist.\n");
+    err = 1;
   }
+
+  return err;
 }
 
 /**
  * Create a new element using `createElement` and put it at the end of the
  * list.
+ *
+ * RETURN: return 1 if the inputed list is NULL, 0 otherwise.
  */
-void appendlst(list_t **l, void *data) {
+int appendlst(list_t *l, void *data) {
   void *newNode = createNode(data);
+  int err = 0;
 
-  if (l != NULL && *l != NULL) {
-    if ((*l)->last != NULL) {
-      (*l)->last->next = newNode;
-      (*l)->last = newNode;
+  if (l != NULL) {
+    if (l->last != NULL) {
+      l->last->next = newNode;
+      l->last = newNode;
     }
+  } else {
+    fprintf(stderr, "Error: the list doesn't exist.\n");
+    err = 1;
   }
+
+  return err;
 }
 
 /**
@@ -113,31 +129,31 @@ void appendlst(list_t **l, void *data) {
  * ERROR: if the index is invalide, the function returns 1 but don't free the
  * data given as parameter, this operation should be made manualy by the user
  * if the function return an error.
- *
- * FIXME: whene the indice is 0, the node is not correctly inserted on the head
  */
-int insertlst(list_t **l, void *data, int index) {
-  node_t *newNode = NULL;
-  node_t *curr = NULL;
-  int cpt = 0, err = 0;
+int insertlst(list_t *l, void *data, int index) {
+  node_t **curr = NULL;
+  node_t *new = NULL;
+  int cpt = 0;
+  int err = 0;
 
-  if (l != NULL && *l != NULL && index >= 0) {
-    curr = (*l)->head;
-    while (curr != NULL && cpt < index - 1) {
-      curr = curr->next;
+  if (l != NULL) {
+    curr = &l->head;
+    while (*curr != NULL && cpt < index) {
+      curr = &(*curr)->next;
       ++cpt;
     }
-    if (curr != NULL) {
-      newNode = createNode(data);
-      newNode->next = curr->next;
-      curr->next = newNode;
+    // if the index is valid, the data is added to the list:
+    if (cpt == index) {
+      new = createNode(data);
+      new->next = *curr;
+      *curr = new;
     } else {
+      fprintf(stderr, "Error: non valid index for insertion.\n");
       err = 1;
-      fprintf(stderr, "Error: invalid index\n");
     }
   } else {
+    fprintf(stderr, "Error: the list doesn't exist.\n");
     err = 1;
-    fprintf(stderr, "Error: invalid index\n");
   }
 
   return err;
@@ -148,7 +164,7 @@ int insertlst(list_t **l, void *data, int index) {
  *
  * NOTE: if the index is not in the list, the function returns NULL
  */
-void *nodelst(list_t *l, int index) {
+node_t *nodelst(list_t *l, int index) {
   node_t *curr = NULL;
   int cpt = 0;
 
@@ -184,11 +200,89 @@ void *datalst(list_t *l, int index) {
   return (curr != NULL) ? curr->data : NULL;
 }
 
-void *removeHeadlst(list_t **l);
+/**
+ * Remove the head of the list `l` and return the data stored inside of it to
+ * free the node without causing memory leak.
+ *
+ * IMPORTANT: the data has to be freed manualy by the user.
+ * RETURN: old data stored in the head node.
+ */
+void *poplst(list_t *l) {
+  node_t *tmp = NULL;
+  void *oldData = NULL;
 
-void *removeLast(list_t **l);
+  if (l != NULL && l->head != NULL) {
+    tmp = l->head;
+    l->head = tmp->next;
+    oldData = tmp->data;
+    tmp->data = NULL;
+    if (l->head == NULL) { // change last if needed
+      l->last = NULL;
+    }
+    free(tmp);
+  }
 
-void *removeNodelst(list_t **l, int index);
+  return oldData;
+}
+
+/**
+ * Remove the last element of the list `l` and return the data stored inside of
+ * it to free the node without causing memory leak.
+ *
+ * IMPORTANT: the data has to be freed manualy by the user.
+ * RETURN: old data stored in the head node.
+ */
+void *removeLastlst(list_t *l) {
+  node_t *prev = NULL;
+  node_t *tmp = NULL;
+  void *oldData = NULL;
+
+  if (l != NULL) {
+    prev = l->head;
+    while (prev != NULL && prev->next != l->last) {
+      prev = prev->next;
+    }
+    tmp = l->last;
+    oldData = tmp->data;
+    tmp->data = NULL;
+    prev->next = NULL;
+    l->last = prev;
+    free(tmp);
+  }
+
+  return oldData;
+}
+
+/**
+ * Remove the element at the `index` position and return the removed data.
+ *
+ * RETURN: NULL if `l` is NULL or if the index is not in the list
+ */
+void *removeNodelst(list_t *l, int index) {
+  node_t **prev = NULL; // pointer on the field `next` of the previous node
+  node_t *tmp = NULL;
+  node_t *oldData = NULL;
+  int cpt = 0;
+
+  if (l != NULL) {
+    prev = &l->head;
+    while (*prev != NULL && cpt < index) {
+      prev = &(*prev)->next;
+      ++cpt;
+    }
+    // if the index is valid, the data is added to the list:
+    if (cpt == index) {
+      tmp = *prev;
+      *prev = tmp->next;
+      oldData = tmp->data;
+      tmp->data = NULL;
+      tmp->next = NULL;
+      free(tmp);
+    }
+  }
+
+  return oldData;
+}
 
 /**
  * Print the list this way:
