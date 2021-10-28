@@ -10,6 +10,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*****************************************************************************/
+/* ALLOCATION AND FREE                                                       */
+/*****************************************************************************/
+
 /**
  * Create a new empty list using `malloc`.
  */
@@ -72,6 +76,10 @@ node_t *createNode(void *data) {
 
   return newNode;
 }
+
+/*****************************************************************************/
+/* ADDING ELEMENTS                                                           */
+/*****************************************************************************/
 
 /**
  * Create a new element using `createElement` and put it on the head of the
@@ -159,46 +167,9 @@ int insertlst(list_t *l, void *data, int index) {
   return err;
 }
 
-/**
- * Find the element at the `index` position and return the adress of the node.
- *
- * NOTE: if the index is not in the list, the function returns NULL
- */
-node_t *nodelst(list_t *l, int index) {
-  node_t *curr = NULL;
-  int cpt = 0;
-
-  if (l != NULL && index >= 0) {
-    curr = l->head;
-    while (curr != NULL && cpt != index) {
-      curr = curr->next;
-      ++cpt;
-    }
-  }
-
-  return curr;
-}
-
-/**
- * Find the element at the `index` position and return the adress of the data
- * stored in the node. Use the function to access the value stored in the list.
- *
- * NOTE: if the index is not in the list, the function returns NULL
- */
-void *datalst(list_t *l, int index) {
-  node_t *curr = NULL;
-  int cpt = 0;
-
-  if (l != NULL && index >= 0) {
-    curr = l->head;
-    while (curr != NULL && cpt != index) {
-      curr = curr->next;
-      ++cpt;
-    }
-  }
-
-  return (curr != NULL) ? curr->data : NULL;
-}
+/*****************************************************************************/
+/* REMOVE ELEMENTS                                                           */
+/*****************************************************************************/
 
 /**
  * Remove the head of the list `l` and return the data stored inside of it to
@@ -272,7 +243,9 @@ void *removeNodelst(list_t *l, int index) {
     }
     // if the index is valid, the data is added to the list:
     if (cpt == index) {
-      tmp = *prev;
+      tmp = *prev; // *prev is the adress of the current node, stored in the
+                   // field `next` of the previous node. So after that, `tmp`
+                   // point on the current node which we want to remove.
       *prev = tmp->next;
       oldData = tmp->data;
       tmp->data = NULL;
@@ -283,6 +256,55 @@ void *removeNodelst(list_t *l, int index) {
 
   return oldData;
 }
+
+/*****************************************************************************/
+/* ACCESSOR                                                                  */
+/*****************************************************************************/
+
+/**
+ * Find the element at the `index` position and return the adress of the node.
+ *
+ * NOTE: if the index is not in the list, the function returns NULL
+ */
+node_t *nodelst(list_t *l, int index) {
+  node_t *curr = NULL;
+  int cpt = 0;
+
+  if (l != NULL && index >= 0) {
+    curr = l->head;
+    while (curr != NULL && cpt != index) {
+      curr = curr->next;
+      ++cpt;
+    }
+  }
+
+  return curr;
+}
+
+/**
+ * Find the element at the `index` position and return the adress of the data
+ * stored in the node. Use the function to access the value stored in the list.
+ *
+ * NOTE: if the index is not in the list, the function returns NULL
+ */
+void *datalst(list_t *l, int index) {
+  node_t *curr = NULL;
+  int cpt = 0;
+
+  if (l != NULL && index >= 0) {
+    curr = l->head;
+    while (curr != NULL && cpt != index) {
+      curr = curr->next;
+      ++cpt;
+    }
+  }
+
+  return (curr != NULL) ? curr->data : NULL;
+}
+
+/*****************************************************************************/
+/* UTILS FUNCTIONS                                                           */
+/*****************************************************************************/
 
 /**
  * Print the list this way:
