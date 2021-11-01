@@ -1,10 +1,10 @@
-/*******************************************************************************
+/******************************************************************************
  * NAME: liblist
  * DESCRIPTION: library whiche provide linked lists data structurs.
  * AUTHOR: drfailer
  * DATE: Wed Oct 20 07:10:56 PM CEST 2021
  *
- ******************************************************************************/
+ *****************************************************************************/
 
 #include "list.h"
 #include <stdio.h>
@@ -247,6 +247,13 @@ void *removeNodelst(list_t *l, int index) {
                    // field `next` of the previous node. So after that, `tmp`
                    // point on the current node which we want to remove.
       *prev = tmp->next;
+      if (tmp == l->last) { // changing last field if needed
+        // the pointer on a structur contains the adress of the first field of
+        // the structur. Here, prev contains the adress of the second field so
+        // to get the adress of the frist field we use `prev - 1`. Then we cast
+        // it into `node_t` to get rid of the warning.
+        l->last = (node_t *)(prev - 1);
+      }
       oldData = tmp->data;
       tmp->data = NULL;
       tmp->next = NULL;

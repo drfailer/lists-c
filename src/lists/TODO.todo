@@ -11,7 +11,7 @@ TODO:
 - [x] `int insertlst(list_t * l, void * data, int index);`
 - [x] `void* poplst(list_t * l);`
 - [x] `void* removeLastlst(list_t * l);`
-- [x] `void* removeNodelst(list_t * l, int index);`
+- [ ] `void* removeNodelst(list_t * l, int index);`
 - [x] `node_t* nodelst(list_t *l, int index);`
 - [x] `void* datalst(list_t * l, int index);`
 - [ ] `void* head(list_t * l);`
