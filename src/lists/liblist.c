@@ -1,8 +1,8 @@
 /******************************************************************************
  * NAME: liblist
- * DESCRIPTION: library whiche provide linked lists data structurs.
+ * DESCRIPTION: library whiche provide linked lists data structures.
  * AUTHOR: drfailer
- * DATE: Wed Oct 20 07:10:56 PM CEST 2021
+ * DATE: Mon Nov  1 09:38:13 AM CET 2021
  *
  *****************************************************************************/
 
@@ -34,7 +34,7 @@ list_t *createlst() {
 /**
  * Delete a list and free the allocated memory. The function take a function
  * pointer as parameter which is used to free the memory allocated for the data
- * (take NULL if the data is not dynamicaly allocated or already freed).
+ * (take NULL if the data is not dynamically allocated or already freed).
  */
 void freelst(list_t **l, void (*freeData)(void *)) {
   node_t *curr = NULL;
@@ -85,7 +85,7 @@ node_t *createNode(void *data) {
  * Create a new element using `createElement` and put it on the head of the
  * list.
  *
- * RETURN: return 1 if the inputed list is NULL, 0 otherwise.
+ * RETURN: return 1 if the inputted list is NULL, 0 otherwise.
  */
 int pushlst(list_t *l, void *data) {
   node_t *newNode = createNode(data);
@@ -109,7 +109,7 @@ int pushlst(list_t *l, void *data) {
  * Create a new element using `createElement` and put it at the end of the
  * list.
  *
- * RETURN: return 1 if the inputed list is NULL, 0 otherwise.
+ * RETURN: return 1 if the inputted list is NULL, 0 otherwise.
  */
 int appendlst(list_t *l, void *data) {
   void *newNode = createNode(data);
@@ -134,8 +134,8 @@ int appendlst(list_t *l, void *data) {
  *
  * RETURN: 0 if the element is correctly inserted in the list, 1 if the index
  * was invalid.
- * ERROR: if the index is invalide, the function returns 1 but don't free the
- * data given as parameter, this operation should be made manualy by the user
+ * ERROR: if the index is invalid, the function returns 1 but don't free the
+ * data given as parameter, this operation should be made manually by the user
  * if the function return an error.
  */
 int insertlst(list_t *l, void *data, int index) {
@@ -175,7 +175,7 @@ int insertlst(list_t *l, void *data, int index) {
  * Remove the head of the list `l` and return the data stored inside of it to
  * free the node without causing memory leak.
  *
- * IMPORTANT: the data has to be freed manualy by the user.
+ * IMPORTANT: the data has to be freed manually by the user.
  * RETURN: old data stored in the head node.
  */
 void *poplst(list_t *l) {
@@ -200,7 +200,7 @@ void *poplst(list_t *l) {
  * Remove the last element of the list `l` and return the data stored inside of
  * it to free the node without causing memory leak.
  *
- * IMPORTANT: the data has to be freed manualy by the user.
+ * IMPORTANT: the data has to be freed manually by the user.
  * RETURN: old data stored in the head node.
  */
 void *removeLastlst(list_t *l) {
@@ -243,15 +243,15 @@ void *removeNodelst(list_t *l, int index) {
     }
     // if the index is valid, the data is added to the list:
     if (cpt == index) {
-      tmp = *prev; // *prev is the adress of the current node, stored in the
+      tmp = *prev; // *prev is the address of the current node, stored in the
                    // field `next` of the previous node. So after that, `tmp`
                    // point on the current node which we want to remove.
       *prev = tmp->next;
       if (tmp == l->last) { // changing last field if needed
-        // the pointer on a structur contains the adress of the first field of
-        // the structur. Here, prev contains the adress of the second field so
-        // to get the adress of the frist field we use `prev - 1`. Then we cast
-        // it into `node_t` to get rid of the warning.
+        // the pointer on a structure contains the address of the first field of
+        // the structure. Here, prev contains the address of the second field so
+        // to get the address of the first field we use `prev - 1`. Then we cast
+        // it into `node_t*` to get rid of the warning.
         l->last = (node_t *)(prev - 1);
       }
       oldData = tmp->data;
@@ -265,11 +265,11 @@ void *removeNodelst(list_t *l, int index) {
 }
 
 /*****************************************************************************/
-/* ACCESSOR                                                                  */
+/* ACCESSORS                                                                  */
 /*****************************************************************************/
 
 /**
- * Find the element at the `index` position and return the adress of the node.
+ * Find the element at the `index` position and return the address of the node.
  *
  * NOTE: if the index is not in the list, the function returns NULL
  */
@@ -289,7 +289,7 @@ node_t *nodelst(list_t *l, int index) {
 }
 
 /**
- * Find the element at the `index` position and return the adress of the data
+ * Find the element at the `index` position and return the address of the data
  * stored in the node. Use the function to access the value stored in the list.
  *
  * NOTE: if the index is not in the list, the function returns NULL
@@ -316,7 +316,7 @@ void *datalst(list_t *l, int index) {
 /**
  * Print the list this way:
  * [ elt0 ] -> [ elt1 ] -> [ ]
- * Take a function pointeur as parameter which is used for printing the data.
+ * Take a function pointer as parameter which is used for printing the data.
  *
  * NOTE: may change the printing function to a to string function
  */
