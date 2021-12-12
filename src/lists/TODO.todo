@@ -14,8 +14,10 @@ TODO:
 - [x] `void* removeNodelst(list_t * l, int index);`
 - [x] `node_t* nodelst(list_t *l, int index);`
 - [x] `void* datalst(list_t * l, int index);`
-- [ ] `void* head(list_t * l);`
-- [ ] `int lengthlst(list_t *l);`
+- [x] `void* head(list_t * l);`
+- [x] `int lengthlst(list_t *l);`
 - [ ] `void sortlst(list_t * l, int (*cmp) (void*, void*)); // merge sort`
 - [ ] `void reverselst(list_t * l);`
+- [ ] `int indexof(list_t* l, void* data, int (*cmp) (void*, void*))`
+- [ ] `node_t search(list_t* l, void* data, int (*cmp) (void*, void*))`
 - [x] `void printlst(list_t *l, void (*printData) (void * data));`

@@ -75,8 +75,6 @@ int main(void)
   showContainer(datalst(l, 3));
   printf("\nhead: ");
   showContainer(headlst(l));
-  printf("\nlast: ");
-  showContainer(lastlst(l));
   printf("\n");
 
   printf("-----------------------\n");
@@ -87,33 +85,18 @@ int main(void)
   printf("suppression de l'element d'indice 6\n");
   freeContainer(removeNodelst(l, 6));
   printlst(l, &showContainer);
-  printf("last : [ ");
-  showContainer(l->last->data);
-  printf(" ]\n");
   printf("suppression de l'element d'indice 4\n");
   freeContainer(removeNodelst(l, 4));
   printlst(l, &showContainer);
-  printf("last : [ ");
-  showContainer(l->last->data);
-  printf(" ]\n");
   printf("suppression de l'element d'indice 11\n");
   freeContainer(removeNodelst(l, 11));
   printlst(l, &showContainer);
-  printf("last : [ ");
-  showContainer(l->last->data);
-  printf(" ]\n");
   printf("suppression de l'element d'indice 10\n");
   freeContainer(removeNodelst(l, 10));
   printlst(l, &showContainer);
-  printf("last : [ ");
-  showContainer(l->last->data);
-  printf(" ]\n");
   printf("suppression de l'element d'indice 9\n");
   freeContainer(removeNodelst(l, 9));
   printlst(l, &showContainer);
-  printf("last : [ ");
-  showContainer(l->last->data);
-  printf(" ]\n");
   printf("suppression de l'element d'indice 0\n");
   freeContainer(removeNodelst(l, 0));
   printlst(l, &showContainer);
@@ -129,6 +112,9 @@ int main(void)
   printf("suppression du dernier\n");
   freeContainer(removeLastlst(l));
   printlst(l, &showContainer);
+  printf("length of the list:\n");
+  printlst(l, &showContainer);
+  printf("length: %d\n", lengthlst(l));
 
   freelst(&l, &freeContainer);
 

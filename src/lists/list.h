@@ -29,7 +29,6 @@ void *removeNodelst(list_t *l, int index);
 node_t *nodelst(list_t *l, int index);
 void *datalst(list_t *l, int index);
 void *headlst(list_t *l);
-void *lastlst(list_t *l);
 
 int lengthlst(list_t *l);
 void sortlst(list_t *l, int (*cmp)(void *, void *)); // merge sort

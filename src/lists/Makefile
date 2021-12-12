@@ -9,4 +9,4 @@ liblist.so: liblists.c lists.h
 	$(CC) $(LDFLAGS) -o $@ liblists.c
 
 clean:
-	rm *.o liblist.so
+	rm liblist.so testprog

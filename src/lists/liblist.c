@@ -2,7 +2,7 @@
  * NAME: liblist
  * DESCRIPTION: library whiche provide linked lists data structures.
  * AUTHOR: drfailer
- * DATE: Mon Nov  1 10:17:21 AM CET 2021
+ * DATE: Sun Dec 12 12:56:15 PM CET 2021
  *
  *****************************************************************************/
 
@@ -27,7 +27,6 @@ list_t *createlst() {
     exit(EXIT_FAILURE);
   } else {
     new->head = NULL;
-    new->last = NULL;
   }
 
   return new;
@@ -96,9 +95,6 @@ int pushlst(list_t *l, void *data) {
   if (l != NULL) {
     newNode->next = l->head;
     l->head = newNode;
-    if (l->last == NULL) { // the list has no elements
-      l->last = newNode;
-    }
   } else {
     fprintf(stderr, "Error: the list doesn't exist.\n");
     err = 1;
@@ -114,14 +110,17 @@ int pushlst(list_t *l, void *data) {
  * RETURN: return 1 if the inputted list is NULL, 0 otherwise.
  */
 int appendlst(list_t *l, void *data) {
-  void *newNode = createNode(data);
+  void *newNode = NULL;
+  node_t **prev;
   int err = 0;
 
   if (l != NULL) {
-    if (l->last != NULL) {
-      l->last->next = newNode;
-      l->last = newNode;
+    prev = &(l->head);
+    while (*prev != NULL) {
+      prev = &(*prev)->next;
     }
+    newNode = createNode(data);
+    *prev = newNode;
   } else {
     fprintf(stderr, "Error: the list doesn't exist.\n");
     err = 1;
@@ -189,9 +188,6 @@ void *poplst(list_t *l) {
     l->head = tmp->next;
     oldData = tmp->data;
     tmp->data = NULL;
-    if (l->head == NULL) { // change last if needed
-      l->last = NULL;
-    }
     free(tmp);
   }
 
@@ -205,22 +201,22 @@ void *poplst(list_t *l) {
  * IMPORTANT: the data has to be freed manually by the user.
  * RETURN: old data stored in the head node.
  */
+// TODO: rewrite
 void *removeLastlst(list_t *l) {
-  node_t *prev = NULL;
-  node_t *tmp = NULL;
+  node_t *curr = NULL;
+  node_t **prev = NULL;
   void *oldData = NULL;
 
-  if (l != NULL) {
-    prev = l->head;
-    while (prev != NULL && prev->next != l->last) {
-      prev = prev->next;
+  if (l != NULL && l->head != NULL) {
+    curr = l->head;
+    prev = &(l->head);
+    while (curr->next != NULL) {
+      prev = &(curr->next);
+      curr = curr->next;
     }
-    tmp = l->last;
-    oldData = tmp->data;
-    tmp->data = NULL;
-    prev->next = NULL;
-    l->last = prev;
-    free(tmp);
+    *prev = NULL;
+    oldData = curr->data;
+    free(curr);
   }
 
   return oldData;
@@ -229,7 +225,8 @@ void *removeLastlst(list_t *l) {
 /**
  * Remove the element at the `index` position and return the removed data.
  *
- * RETURN: NULL if `l` is NULL or if the index is not in the list
+ * RETURN: NULL if `l` is NULL or if the index is not in the list, otherwise,
+ * it return the old data
  */
 void *removeNodelst(list_t *l, int index) {
   node_t **prev = NULL; // pointer on the field `next` of the previous node
@@ -249,13 +246,6 @@ void *removeNodelst(list_t *l, int index) {
                    // field `next` of the previous node. So after that, `tmp`
                    // point on the current node which we want to remove.
       *prev = tmp->next;
-      if (tmp == l->last) { // changing last field if needed
-        // the pointer on a structure contains the address of the first field of
-        // the structure. Here, prev contains the address of the second field so
-        // to get the address of the first field we use `prev - 1`. Then we cast
-        // it into `node_t*` to get rid of the warning.
-        l->last = (node_t *)(prev - 1);
-      }
       oldData = tmp->data;
       tmp->data = NULL;
       tmp->next = NULL;
@@ -322,19 +312,6 @@ void* headlst(list_t * l) {
   }
 
   return headData;
-}
-
-/**
- * Return the data stored in the last node of the list.
- */
-void *lastlst(list_t *l) {
-  void *lastData = NULL;
-
-  if (l != NULL && l->last != NULL) {
-    lastData = l->last->data;
-  }
-
-  return lastData;
 }
 
 /*****************************************************************************/
