@@ -73,6 +73,10 @@ int main(void)
   showContainer(datalst(l, 2));
   printf("\nelst 3: ");
   showContainer(datalst(l, 3));
+  printf("\nhead: ");
+  showContainer(headlst(l));
+  printf("\nlast: ");
+  showContainer(lastlst(l));
   printf("\n");
 
   printf("-----------------------\n");

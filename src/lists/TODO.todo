@@ -11,11 +11,10 @@ TODO:
 - [x] `int insertlst(list_t * l, void * data, int index);`
 - [x] `void* poplst(list_t * l);`
 - [x] `void* removeLastlst(list_t * l);`
-- [ ] `void* removeNodelst(list_t * l, int index);`
+- [x] `void* removeNodelst(list_t * l, int index);`
 - [x] `node_t* nodelst(list_t *l, int index);`
 - [x] `void* datalst(list_t * l, int index);`
 - [ ] `void* head(list_t * l);`
-- [ ] `list_t* tail(list_t * l);`
 - [ ] `int lengthlst(list_t *l);`
 - [ ] `void sortlst(list_t * l, int (*cmp) (void*, void*)); // merge sort`
 - [ ] `void reverselst(list_t * l);`

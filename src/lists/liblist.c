@@ -2,7 +2,7 @@
  * NAME: liblist
  * DESCRIPTION: library whiche provide linked lists data structures.
  * AUTHOR: drfailer
- * DATE: Mon Nov  1 09:38:13 AM CET 2021
+ * DATE: Mon Nov  1 10:17:21 AM CET 2021
  *
  *****************************************************************************/
 
@@ -16,6 +16,8 @@
 
 /**
  * Create a new empty list using `malloc`.
+ *
+ * ERROR: exit with an error message if the allocation failed.
  */
 list_t *createlst() {
   list_t *new = malloc(sizeof(list_t));
@@ -265,7 +267,7 @@ void *removeNodelst(list_t *l, int index) {
 }
 
 /*****************************************************************************/
-/* ACCESSORS                                                                  */
+/* ACCESSORS                                                                 */
 /*****************************************************************************/
 
 /**
@@ -309,9 +311,55 @@ void *datalst(list_t *l, int index) {
   return (curr != NULL) ? curr->data : NULL;
 }
 
+/**
+ * Return the data stored in the head of the list.
+ */
+void* headlst(list_t * l) {
+  void *headData = NULL;
+
+  if (l != NULL && l->head != NULL) {
+    headData = l->head->data;
+  }
+
+  return headData;
+}
+
+/**
+ * Return the data stored in the last node of the list.
+ */
+void *lastlst(list_t *l) {
+  void *lastData = NULL;
+
+  if (l != NULL && l->last != NULL) {
+    lastData = l->last->data;
+  }
+
+  return lastData;
+}
+
 /*****************************************************************************/
 /* UTILS FUNCTIONS                                                           */
 /*****************************************************************************/
+
+/**
+ * Return the number of elements stored in the list `l`.
+ *
+ * ERROR: return 0 if the list is null.
+ */
+int lengthlst(list_t *l) {
+  int length = 0;
+  node_t *curr = NULL;
+
+  if (l != NULL) {
+    curr = l->head;
+    while (curr != NULL) {
+      ++length;
+      curr = curr->next;
+    }
+  }
+
+  return length;
+}
 
 /**
  * Print the list this way:
